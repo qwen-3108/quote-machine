@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Machine</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Lora:ital@1&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="foreground">
+            <a href="https://twitter.com/intent/tweet" target="_blank" rel="noreferrer noopener">
+                <svg id="twitter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="rgba(256, 256, 256, 0.5)"
+                        d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                </svg>
+            </a>
+            <div id="text">
+                <p id="quote"></p>
+                <p id="author"></p>
+            </div>
+            <svg id="refresh" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="rgba(256, 256, 256, 0.5)"
+                    d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
+            </svg>
+        </div>
+        <svg id="orbitPath" width="700" height="700" viewBox="0 0 700 700" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="grad1" cx="50%" cy="50%" r="55%" fx="50%" fy="50%">
+                    <stop style="stop-color:#ffffff; stop-opacity:0" offset="80%" />
+                    <stop style="stop-color:#ffffff; stop-opacity:0.3" offset="100%" />
+                </radialGradient>
+            </defs>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="" fill="url(#grad1)" stroke="#ffffff" />
+        </svg>
+        <svg id="satelliteSpace" width="700" height="700" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="grad2" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                    <stop style="stop-color:#ffffff; stop-opacity:0.1" offset="50%" />
+                    <stop style="stop-color:#ffffff; stop-opacity:0.7" offset="100%" />
+                </radialGradient>
+            </defs>
+            <circle id="satellite" cx="50" cy="50" r="10" fill="url(#grad2)" />
+        </svg>
+    </main>
+    <script type='text/javascript' src='index.js'></script>
+</body>
+
+</html>
