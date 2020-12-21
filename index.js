@@ -125,7 +125,9 @@ function toggle() {
 //2. animation
 const INTERVAL = 20; //50fps
 let animate = {
-    currentPath: orbitPath.children[1].getAttribute('d')
+    currentStartPath: orbitPath.children[1].getAttribute('d'),
+    currentEndPath: undefined,
+    interval: undefined
 }; //store morph animation to allow clearing
 
 function orbit() {
@@ -170,9 +172,13 @@ function morph() {
     let endPath = '';
     do {
         endPath = getRandomPath();
-    } while (endPath === animate.currentPath);
+    } while (endPath === animate.currentStartPath || endPath === animate.currentEndPath);
 
-    //clear ongoing morph if any
+    //if currentEndPath exist from previous animation, set previous end as curren start
+    if (animate.currentEndPath) animate.currentStartPath = animate.currentEndPath;
+    //currentEndPath is always the randomized endPath
+    animate.currentEndPath = endPath;
+    //if trigger in the middle of the morph, clear previous morph
     if (animate.interval) clearInterval(animate.interval);
     let frameCount = 0;
 
@@ -181,12 +187,12 @@ function morph() {
 
         if (frameCount === 0) {
             orbitPath.children[1].setAttribute('d', startPath);
+            animate.currentStartPath = startPath;
             frameCount++;
 
         } else if (frameCount === FRAMES) {
             orbitPath.children[1].setAttribute('d', endPath);
             frameCount = 0;
-            animate.currentPath = endPath;
             clearInterval(animate.interval);
 
         } else {
