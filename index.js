@@ -51,7 +51,7 @@ function getRandomPath() {
     return pathBank[Math.floor(Math.random() * pathBank.length)];
 }
 
-//convert pathStr into nanchors array
+//convert pathStr into anchors array
 function processPath(pathStr) {
     let anchorArr = pathStr.split(/[MCZ\s]/);
     return anchorArr.filter(str => str !== "" && str !== " ");
@@ -69,10 +69,12 @@ function processAnchors(anchorArr) {
     return pathStr;
 }
 
+/*
+easing functions
+*/
 function linear(x) {
     return x;
 }
-
 //copied from easings.net
 function easeOutElastic(x) {
     const C4 = (2 * Math.PI) / 3;
@@ -83,7 +85,11 @@ function easeOutElastic(x) {
             ? 1
             : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * C4) + 1;
 }
+function easeOutCubic(x) {
+    return 1 - Math.pow(1 - x, 3);
+}
 
+//extrapolation helpers
 function positionOnEasingCurve(n, interval, duration) {
     return interval / duration * n;
 }
@@ -97,12 +103,13 @@ function extrapolate(y, start, end) {
 /*------script start------*/
 
 //get element
-const tweet = document.querySelector('#twitter');
-const quote = document.querySelector('#quote');
-const author = document.querySelector('#author');
-const refresh = document.querySelector('#refresh');
-const orbitPath = document.querySelector('#orbitPath');
-const satellite = document.querySelector('#satellite');
+const tweet = document.getElementById('twitter');
+const quote = document.getElementById('quote');
+const author = document.getElementById('author');
+const refresh = document.getElementById('refresh');
+const orbitPath = document.getElementById('orbitPath');
+const satellite = document.getElementById('satellite');
+const tooltip = document.getElementById('tooltip')
 
 //function definition
 
@@ -164,7 +171,7 @@ function orbit() {
 
 function morph() {
 
-    const DURATION = 4000;
+    const DURATION = 500;
     const FRAMES = DURATION / INTERVAL;
 
     //get start & end path
@@ -201,7 +208,7 @@ function morph() {
             const endAnchors = processPath(endPath);
             //determine progress of animation
             const currentPosition = positionOnEasingCurve(frameCount, INTERVAL, DURATION);
-            const currentValue = easeOutElastic(currentPosition);
+            const currentValue = easeOutCubic(currentPosition);
             //extrapolate current value for each start-end anchor pairs
             const stateAnchors = [];
             for (let i = 0; i < startAnchors.length; i++) {
@@ -227,8 +234,41 @@ window.onload = () => {
     // satellite.setAttribute('fill', "url(#grad1)");
 };
 
+//do these on tweet
+tweet.addEventListener('mousedown', () => {
+    tweet.classList.add('mouseDown');
+});
+
+tweet.addEventListener('mouseup', () => {
+    tweet.classList.remove('mouseDown');
+});
+
 //do these on refresh
-refresh.addEventListener('click', () => {
+refresh.addEventListener('mousedown', () => {
+    refresh.classList.add('mouseDown');
+
+});
+
+refresh.addEventListener('mouseup', () => {
+    refresh.classList.remove('mouseDown');
+    refresh.classList.add('clickAnim');
     toggle();
     morph();
+    setTimeout(() => refresh.classList.remove('clickAnim'), 400);
+});
+
+refresh.addEventListener('mouseenter', () => {
+    tooltip.classList.remove('hide');
+});
+
+refresh.addEventListener('mousemove', e => {
+    const { clientX, clientY } = e;
+    console.log(clientX, clientY);
+    tooltip.style.position = 'fixed';
+    tooltip.style.left = `${clientX}px`;
+    tooltip.style.top = `${clientY}px`;
+});
+
+refresh.addEventListener('mouseleave', () => {
+    tooltip.classList.add('hide');
 });
